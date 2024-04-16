@@ -94,7 +94,9 @@ def display_movie_details(movie):
     print(f"Nombre de votes : {movie['vote_count']}")
 
 app = Flask(__name__)
-app.secret_key = 'secret_key'
+
+favorite_movies = None
+favorite_movie = None
 
 
 @app.route('/')
@@ -105,19 +107,19 @@ def home():
 def userMessage():
     data = request.get_json()
     reponse = data.get('message')
+    global favorite_movies
+    global favorite_movie
     if data.get('step')== 1:
         favorite_movie_title = reponse
         favorite_movies = search_movies(favorite_movie_title)
-        session["favorite_movies"] = favorite_movies
         favorite_movies_json = json.dumps(favorite_movies)
         return favorite_movies_json
     if data.get('step')== 2:
         choice = reponse
         if choice.isdigit():
             choice = int(choice)
-            favorite_movies = session.get("favorite_movies")
             if 0 <= choice <= len(favorite_movies):
-                session["favorite_movie"] = favorite_movies[choice - 1]
+                favorite_movie = favorite_movies[choice - 1]
                 choice = {"choice": choice}
                 choice_json = json.dumps(choice)
                 return choice_json
@@ -126,9 +128,9 @@ def userMessage():
                 invalide_json = json.dumps(invalide)
                 return invalide_json
     if data.get('step')== 3:
+        print(favorite_movie)
         liked_movie_title = reponse
         liked_movies = search_movies(liked_movie_title)
-        session["liked_movies"] = liked_movies
         liked_movies_json = json.dumps(liked_movies)
         return liked_movies_json
 
