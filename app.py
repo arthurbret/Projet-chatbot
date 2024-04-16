@@ -97,6 +97,10 @@ app = Flask(__name__)
 
 favorite_movies = None
 favorite_movie = None
+liked_movies = None
+liked_movie = None
+disliked_movies = None
+disliked_movie = None
 
 
 @app.route('/')
@@ -109,11 +113,16 @@ def userMessage():
     reponse = data.get('message')
     global favorite_movies
     global favorite_movie
+    global liked_movies
+    global liked_movie
+    global disliked_movies
+    global disliked_movie
     if data.get('step')== 1:
         favorite_movie_title = reponse
         favorite_movies = search_movies(favorite_movie_title)
         favorite_movies_json = json.dumps(favorite_movies)
         return favorite_movies_json
+
     if data.get('step')== 2:
         choice = reponse
         if choice.isdigit():
@@ -128,11 +137,41 @@ def userMessage():
                 invalide_json = json.dumps(invalide)
                 return invalide_json
     if data.get('step')== 3:
-        print(favorite_movie)
         liked_movie_title = reponse
         liked_movies = search_movies(liked_movie_title)
         liked_movies_json = json.dumps(liked_movies)
         return liked_movies_json
+    if data.get('step')== 4:
+        choice = reponse
+        if choice.isdigit():
+            choice = int(choice)
+            if 0 <= choice <= len(liked_movies):
+                liked_movie = liked_movies[choice - 1]
+                choice = {"choice": choice}
+                choice_json = json.dumps(choice)
+                return choice_json
+            else:
+                invalide = {"invalide": "invalide"}
+                invalide_json = json.dumps(invalide)
+                return invalide_json
+    if data.get('step')== 5:
+        disliked_movie_title = reponse
+        disliked_movies = search_movies(disliked_movie_title)
+        disliked_movies_json = json.dumps(disliked_movies)
+        return disliked_movies_json
+    if data.get('step')== 6:
+        choice = reponse
+        if choice.isdigit():
+            choice = int(choice)
+            if 0 <= choice <= len(disliked_movies):
+                disliked_movie = disliked_movies[choice - 1]
+                choice = {"choice": choice}
+                choice_json = json.dumps(choice)
+                return choice_json
+            else:
+                invalide = {"invalide": "invalide"}
+                invalide_json = json.dumps(invalide)
+                return invalide_json
 
 
 

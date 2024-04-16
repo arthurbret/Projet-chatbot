@@ -62,7 +62,7 @@ document.addEventListener("alpine:init", () => {
           // Affichage de la réponse du serveur dans l'élément HTML
           console.log(this.mockres);
           console.log(this.step);
-          if (this.step == 1){
+          if (this.step == 1 || this.step == 3 || this.step == 5){
             console.log(data)
             if(data.length === 0){
               this.mockres = "Aucun film trouvé !<br> Veuillez réessayer."
@@ -84,7 +84,25 @@ document.addEventListener("alpine:init", () => {
             }
           }
 
-        if(this.step == 2 ){
+        if(this.step == 2 || this.step == 4 || this.step == 6){
+          console.log(data);
+          if (data["choice"]==0){
+            this.mockres = "Selection annulée, Quel est votre film préféré ?";
+            this.step = 0;
+          } else if (data["invalide"] == "invalide"){
+            this.mockres = "Choix invalide. Veuillez sélectionner un numéro de film valide.";
+            this.step = 1;
+          }else if(this.step == 2){
+            this.mockres = "Quel est le dernier film que vous avez bien aimé ?"
+          }else if(this.step == 4){
+            this.mockres = "Quel est le film que vous aimez le moins ?"
+          }else if(this.step == 6){
+            this.mockres = "OK"
+          }
+
+        }
+
+        /*if(this.step == 4 ){
           console.log(data);
           if (data["choice"]==0){
             this.mockres = "Selection annulée, Quel est votre film préféré ?";
@@ -93,30 +111,24 @@ document.addEventListener("alpine:init", () => {
             this.mockres = "Choix invalide. Veuillez sélectionner un numéro de film valide.";
             this.step = 1;
           }else{
-            this.mockres = "Quel est le dernier film que Vous avez bien aimé ?"
+            this.mockres = "Quel est le film que vous aimez le moins ?"
           }
         }
 
-        if(this.step == 3){
-          if(data.length === 0){
-            this.mockres = "Aucun film trouvé !<br> Veuillez réessayer."
-            this.step= 0;
-            }
-            else{
-              this.mockres = "Voici les films trouvés:<br><br>";
-            
-              for (let i = 0; i < data.length; i++) {
-                let movie = data[i];
-                this.mockres += `${i + 1}. ${movie.title}`;
-                if(movie.release_date != null){
-                this.mockres += `(${movie.release_date})`;
-                }
-                this.mockres += `<br>`;
-              }
-              this.mockres += `<br>Sélectionnez le numéro du film que vous voulez choisir (ou tapez '0' pour annuler)`;
-              console.log(this.mockres);
+        if(this.step == 6 ){
+          console.log(data);
+          if (data["choice"]==0){
+            this.mockres = "Selection annulée, Quel est votre film préféré ?";
+            this.step = 0;
+          } else if (data["invalide"] == "invalide"){
+            this.mockres = "Choix invalide. Veuillez sélectionner un numéro de film valide.";
+            this.step = 1;
+          }else{
+            this.mockres = "Quel est le film que vous aimez le moins ?"
           }
-        }
+        }*/
+
+
           console.log(this.step);
           console.log(data);
           console.log(this.mockres);
