@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='extra.css') }}">
+</head>
+<body class="bg-gray-50 h-screen flex items-center justify-center">
+    <div class="w-screen h-screen bg-gray-50 flex flex-col" x-data="chat">
+
+        <div class="bg-gray-800 flex justify-center p-4">
+          <span class="text-white text-bold">CineMate</span>
+        </div>
+      
+        <div class="w-full max-w-screen-lg flex-1 m-auto p-8 my-4 pb-20">
+          <div class="flex flex-col">
+      
+            <template x-for="message in messages">
+              <div class="message rounded-lg py-2 px-6 mb-4" :class="message.role === 'assistant' ? 'assistant bg-blue-100 border-blue-100 self-start' : 'user bg-green-200 border-green-200 self-end'">
+                <span x-html="(message.body)"></span>
+                <template x-if="message.beingTyped">
+                  <span class="w-2.5 bg-gray-600 h-4 inline-block -mb-0.5 align-baseline blink"></span>
+                </template>
+              </div>
+            </template>
+      
+            <template x-if="showTyping">
+              <div class="message assistant rounded-lg py-2.5 px-6 mb-4 bg-blue-100 border-blue-100 self-start">
+                <div class="type-indicator">
+                  <span>.</span><span>.</span><span>.</span>
+                </div>
+              </div>
+            </template>
+      
+          </div>
+      
+        </div>
+        <div class="fixed inset-x-0 bottom-0 bg-gray-200">
+          <form class="max-w-screen-lg m-auto w-full p-4 flex space-x-4 justify-center items-center" @submit.prevent="sendMessage">
+            <input id="message" type="text" autocomplete="off" class="border rounded-md p-2 flex-1 border-gray-300" x-model="newMessage" placeholder="Your message..." />
+            <button class="bg-gray-800 text-white px-4 py-2 rounded-md" :class="{'opacity-50' : waitingOnResponse}">Send</button>
+          </form>
+        </div>
+      </div>
+</body>
+</html>
+
+<!--<script src="{{ url_for('static', filename='script.js') }}"></script>-->
