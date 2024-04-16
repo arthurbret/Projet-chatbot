@@ -172,6 +172,22 @@ def userMessage():
                 invalide = {"invalide": "invalide"}
                 invalide_json = json.dumps(invalide)
                 return invalide_json
+    
+    if data.get('step')==7:
+        if favorite_movie and liked_movie and disliked_movie:
+            recommendations = get_recommendations(favorite_movie['id'], liked_movie['id'], disliked_movie['id'])
+            if recommendations:
+                print(recommendations)
+                recommendations_json = json.dumps(recommendations)
+                return recommendations_json
+            else:
+                error_recommendation = {"recommendation": "not found"}
+                error_recommendation_json = json.dumps(error_recommendation)
+                return error_recommendation_json
+        else:
+            error_preferences = {"preferences": "not found"}
+            error_preferences_json = json.dumps(error_preferences)
+            return error_preferences_json
 
 
 
