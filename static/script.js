@@ -22,7 +22,7 @@ import Alpine from "https://cdn.skypack.dev/alpinejs@3.11.1";
 const mockTypingAfter = 0;//1500
 const mockResponseAfter = 0;//3000
 const mockOpeningMessage =
-  "Bonjour ! Je suis CineMate, votre assistant virtuel pour les recommendantions cinéma. <br>Pour commencer, quel est votre film préféré ?";
+  "Bonjour ! Je suis CineMate, votre assistant virtuel pour les recommandations cinéma. <br>Pour commencer, quel est votre film préféré ?";
 const mockResponsePrefix = "Votre message: ";
 
 document.addEventListener("alpine:init", () => {

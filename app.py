@@ -56,7 +56,7 @@ def get_recommendations(favorite_movie_id, liked_movie_id, disliked_movie_id):
 
     # Fonction pour récupérer les recommandations en fonction de l'ID du film
     def get_movie_recommendations(movie_id):
-        url = f"https://api.themoviedb.org/3/movie/{movie_id}/recommendations"
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}/similar?language=fr-FR"
         response = requests.get(url, headers=headers)
         data = response.json()
         return data['results'] if 'results' in data else []
@@ -69,15 +69,11 @@ def get_recommendations(favorite_movie_id, liked_movie_id, disliked_movie_id):
     # Filtrer les recommandations pour enlever les films non aimés
     recommendations = [movie for movie in recommendations if movie['id'] != disliked_movie_id]
 
-    # Trier les recommandations par popularité, avis et imprévisibilité
-    sorted_recommendations = sorted(recommendations, key=lambda x: (x['popularity'], x['vote_average']), reverse=True)
+    # Trier les recommandations par popularité
 
-    # Récupérer les 3 premières recommandations (les plus populaires, les mieux notées et les moins prévisibles)
-    top_popular = sorted_recommendations[0] if sorted_recommendations else None
-    top_rated = sorted(recommendations, key=lambda x: x['vote_average'], reverse=True)[0] if recommendations else None
-    most_unlikely = sorted(recommendations, key=lambda x: x['popularity'])[0] if recommendations else None
+    top_popular = sorted(recommendations, key=lambda x: x['popularity'], reverse=True)[:3]
 
-    return [top_popular, top_rated, most_unlikely]
+    return [top_popular[0], top_popular[1], top_popular[2]]
 
 
 def display_movies(movies):
